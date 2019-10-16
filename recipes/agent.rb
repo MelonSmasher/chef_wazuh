@@ -37,7 +37,6 @@ if %w(debian ubuntu redhat centos).include? node['platform']
       package 'wazuh-agent' do
         action :install
         version node['chef_wazuh']['agent']['version'][node['platform'].to_s]
-        allow_downgrade true
         notifies :run, 'execute[wazuh_agent_auth]', :immediately
       end
     end

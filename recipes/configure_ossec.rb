@@ -29,6 +29,14 @@ if %w(debian ubuntu redhat centos).include? node['platform']
       action :nothing
     end
 
+    # Define the agent auth cmd
+    execute 'agent-auth' do
+      command "/var/ossec/bin/agent-auth -m #{ode['chef_wazuh']['agent']['ossec_config']['client']['server']['address']}"
+      action :nothing
+      notifies :restart, 'service[wazuh-agent]', :delayed
+    end
+
+
     # If the protocol is not set to UDP or TCP set it to UDP
     unless %w(udp tcp).include? client_server_protocol
       log 'chef_wazuh::ossec::protocol::warning' do
@@ -56,7 +64,7 @@ if %w(debian ubuntu redhat centos).include? node['platform']
           client_config_profile: client_config_profile,
           client_server_protocol: client_server_protocol
       )
-      notifies :restart, 'service[wazuh-agent]', :delayed
+      notifies :run, 'execute[agent-auth]', :delayed
       action :create
     end
 
