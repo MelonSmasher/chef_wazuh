@@ -1,6 +1,11 @@
 default['chef_wazuh']['agent']['ossec_conf_path'] = '/var/ossec/etc/ossec.conf'
 default['chef_wazuh']['agent']['server'] = nil
 
+default['chef_wazuh']['agent']['version']['redhat'] = nil
+default['chef_wazuh']['agent']['version']['centos'] = nil
+default['chef_wazuh']['agent']['version']['debian'] = nil
+default['chef_wazuh']['agent']['version']['ubuntu'] = nil
+
 default['chef_wazuh']['agent']['ossec_config']['client']['server']['address'] = nil
 default['chef_wazuh']['agent']['ossec_config']['client']['server']['port'] = 1514
 default['chef_wazuh']['agent']['ossec_config']['client']['server']['protocol'] = 'udp'

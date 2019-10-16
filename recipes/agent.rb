@@ -28,9 +28,18 @@ if %w(debian ubuntu redhat centos).include? node['platform']
 
     # Install the agent
     # Then notify the execute to run only after the package has been installed
-    package 'wazuh-agent' do
-      action :install
-      notifies :run, 'execute[wazuh_agent_auth]', :immediately
+    if node['chef_wazuh']['agent']['version'][node['platform'].to_s].nil?
+      package 'wazuh-agent' do
+        action :upgrade
+        notifies :run, 'execute[wazuh_agent_auth]', :immediately
+      end
+    else
+      package 'wazuh-agent' do
+        action :install
+        version node['chef_wazuh']['agent']['version'][node['platform'].to_s]
+        allow_downgrade true
+        notifies :run, 'execute[wazuh_agent_auth]', :immediately
+      end
     end
 
     # Configure OSSEC
