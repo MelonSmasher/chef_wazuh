@@ -31,7 +31,7 @@ if %w(debian ubuntu redhat centos).include? node['platform']
 
     # Define the agent auth cmd
     execute 'agent-auth' do
-      command "/var/ossec/bin/agent-auth -m #{ode['chef_wazuh']['agent']['ossec_config']['client']['server']['address']}"
+      command "/var/ossec/bin/agent-auth -m #{node['chef_wazuh']['agent']['ossec_config']['client']['server']['address']}"
       action :nothing
       notifies :restart, 'service[wazuh-agent]', :delayed
     end
